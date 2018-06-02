@@ -1,13 +1,13 @@
 /**
- * dynamic-watermark
+ * imagemagick-dynamic-watermark
  *
  *
- * Copyright (c) 2017 Navjot Dhanawat
+ * Copyright (c) 2017 Sadegh Mohebbi
  * Licensed under the MIT license.
  */
 
 /**
- * Dynamic Watermark is npm watermark module to add watermark over image.
+ * ImageMagick Dynamic Watermark is npm watermark module to add watermark over image.
  * It can add image as well as text watermark on given positions.
  * @param  {options}
  * @return {callback}
@@ -79,9 +79,9 @@ var embed = function (options, callback) {
                         .write(destination, function (e) {
                             console.log(e || 'Text Watermark Done. Path : ' + destination); // What would you like to do here?
                             if (!e) {
-                                callback({ status: 1 });
+                                callback(null, 1);
                             } else {
-                                callback({ status: 0 });
+                                callback(e, 0);
                             }
                         });
                 } else {
@@ -90,14 +90,14 @@ var embed = function (options, callback) {
                         .write(destination, function (e) {
                             console.log(e || 'Image Watermark Done. Path : ' + destination); // What would you like to do here?
                             if (!e) {
-                                callback({ status: 1 });
+                                callback(null, 1);
                             } else {
-                                callback({ status: 0 });
+                                callback(e, 0);
                             }
                         });
                 }
             } else {
-                throw new Error(err);
+                callback(err, 0);
             }
         });
 };
