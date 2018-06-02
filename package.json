@@ -1,12 +1,17 @@
 {
-  "name": "dynamic-watermark",
+  "name": "imagemagick-dynamic-watermark",
   "version": "1.0.0",
   "description": "Dynamic Watermark is npm watermark module to add watermark over image. It can add image as well as text watermark on given positions",
   "main": "index.js",
-  "scripts": {},
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/navjotdhanawat/dynamic-watermark"
+    "url": "git+https://github.com/sadeghmohebbi/imagemagick-dynamic-watermark.git"
   },
   "keywords": [
     "node watermark",
@@ -19,16 +24,12 @@
     "icon watermark",
     "transparent watermark"
   ],
-  "author": "Navjot Dhanawat <navjotdhanawat@gmail.com> (http://www.navjotdhanawat.com/)",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": ""
-    }
-  ],
+  "author": "Sadegh Mohebbi <mohebbi.sadegh@gmail.com>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/navjotdhanawat/dynamic-watermark/issues"
+    "url": "https://github.com/sadeghmohebbi/imagemagick-dynamic-watermark/issues"
   },
+  "homepage": "https://github.com/sadeghmohebbi/imagemagick-dynamic-watermark#readme",
   "dependencies": {
     "gm": "^1.23.1"
   }

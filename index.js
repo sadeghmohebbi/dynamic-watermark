@@ -14,7 +14,7 @@
  */
 
 
-var gm = require('gm');
+var gm = require('gm').subClass({imageMagick: true});
 
 var embed = function (options, callback) {
 
