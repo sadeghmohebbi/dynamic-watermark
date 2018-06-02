@@ -14,7 +14,7 @@
  */
 
 
-var gm = require('gm').subClass({imageMagick: true});
+const gm = require('gm').subClass({imageMagick: true});
 
 var embed = function (options, callback) {
 
@@ -33,8 +33,7 @@ var embed = function (options, callback) {
     var position = options.position;   //'right-bottom';
     var type = options.type;    //'text';
     var text = options.text ? options.text : '';
-    gm(source)
-        .size(function (err, size) {
+    gm(source).size(function (err, size) {
 
             if (!err) {
                 var logoWidth = (size.width / 10);
@@ -77,22 +76,22 @@ var embed = function (options, callback) {
                         .drawText(logoX, logoY, text)
                         .fontSize( fontSize + 'px' )
                         .write(destination, function (e) {
-                            console.log(e || 'Text Watermark Done. Path : ' + destination); // What would you like to do here?
+                            console.log(e || 'Text Watermark Done. Path : ' + destination);
                             if (!e) {
                                 callback(null, 1);
                             } else {
-                                callback(e, 0);
+                                callback(String(e), 0);
                             }
                         });
                 } else {
                     gm(source)
-                        .draw(['image over ' + logoX + ',' + logoY + ' ' + logoWidth + ',' + logoHeight + ' ' + logo])
+                        .draw('image over ' + logoX + ',' + logoY + ' ' + logoWidth + ',' + logoHeight + ' ' + logo)
                         .write(destination, function (e) {
-                            console.log(e || 'Image Watermark Done. Path : ' + destination); // What would you like to do here?
+                            console.log(e || 'Image Watermark Done. Path : ' + destination);
                             if (!e) {
                                 callback(null, 1);
                             } else {
-                                callback(e, 0);
+                                callback(String(e), 0);
                             }
                         });
                 }

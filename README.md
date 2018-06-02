@@ -17,7 +17,7 @@ If you want WebP support with ImageMagick, you must add the WebP option:
 
 After successful installation of imagemagick-dynamic-watermark follow below steps:
 
-### Step 1: include dynamic-watermark package:
+### Step 1: include imagemagick-dynamic-watermark package:
 ```
 var watermark = require('imagemagick-dynamic-watermark');
 ```
@@ -63,5 +63,5 @@ watermark.embed(optionsImageWatermark, function(status) {
     console.log(status);
 });
 ```
-this module is base on [Dynamic Watermark](https://github.com/navjotdhanawat/dynamic-watermark) with some fixing
+this module is base on [Dynamic Watermark](https://github.com/navjotdhanawat/dynamic-watermark) with some fixing 
 [Open issues](https://github.com/sadeghmohebbi/imagemagick-dynamic-watermark/issues)
