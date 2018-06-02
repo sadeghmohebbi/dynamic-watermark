@@ -96,7 +96,7 @@ var embed = function (options, callback) {
                         });
                 }
             } else {
-                callback(err, 0);
+                callback(String(err), 0);
             }
         });
 };
