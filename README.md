@@ -19,7 +19,7 @@ After successful installation of imagemagick-dynamic-watermark follow below step
 
 ### Step 1: include dynamic-watermark package:
 ```
-var watermark = require('gimagemagick-dynamic-watermark');
+var watermark = require('imagemagick-dynamic-watermark');
 ```
 
 ### Step 2: Provide following options:
