@@ -1,23 +1,28 @@
-## Dynamic Watermark : (dynamic-watermark)
+# ImageMagick Dynamic Watermark
 
 Dynamic Watermark is npm watermark module to add watermark over image. It can add image as well as text watermark on given positions. It does great job for adding watermarks.
 
-![Watermark](https://github.com/navjotdhanawat/dynamic-watermark/blob/master/sample-watermark.jpg?style=centerme)
-
 ```
-npm install dynamic-watermark --save
-
+npm install imagemagick-dynamic-watermark
 ```
+### Getting started
+First download and install [GraphicsMagick](http://www.graphicsmagick.org/) or [ImageMagick](http://www.imagemagick.org/). In Mac OS X, you can simply use [Homebrew](http://mxcl.github.io/homebrew/) and do:
 
+    brew install imagemagick
+    brew install graphicsmagick
 
-After successful installation of dynamic-watermark follow below steps:
+If you want WebP support with ImageMagick, you must add the WebP option:
 
-#### Step 1: include dynamic-watermark package:
+    brew install imagemagick --with-webp
+
+After successful installation of imagemagick-dynamic-watermark follow below steps:
+
+### Step 1: include dynamic-watermark package:
 ```
 var watermark = require('dynamic-watermark');
 ```
 
-#### Step 2: Provide following options:
+### Step 2: Provide following options:
 ```
 var optionsImageWatermark = {
     type: "image",
@@ -49,7 +54,8 @@ var optionsTextWatermark = {
     }
 };
 ```
-#### Step 3: Final step is to call embed method by passing above options.
+
+### Step 3: Final step is to call embed method by passing above options.
 ```
 //optionsImageWatermark or optionsTextWatermark
 watermark.embed(optionsImageWatermark, function(status) {
@@ -57,9 +63,5 @@ watermark.embed(optionsImageWatermark, function(status) {
     console.log(status);
 });
 ```
-#### Example: [How to add watermark in nodejs](http://www.thenextfact.com/how-to-add-watermark-logo-text-image-nodejs/)
-
-##### If there is something missing in this repo or any suggestions, then please open feature thread
-
-##### If you are facing any issue then dont forget to open issue or help thread.
-[Open issues](https://github.com/navjotdhanawat/dynamic-watermark/issues)
+this module is base on [Dynamic Watermark](https://github.com/navjotdhanawat/dynamic-watermark) with some fixing
+[Open issues](https://github.com/sadeghmohebbi/imagemagick-dynamic-watermark/issues)
