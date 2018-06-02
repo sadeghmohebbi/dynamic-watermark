@@ -97,7 +97,7 @@ var embed = function (options, callback) {
                         });
                 }
             } else {
-                console.log(err);
+                throw new Error(err);
             }
         });
 };
