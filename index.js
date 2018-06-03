@@ -44,7 +44,7 @@ var embed = function (options, callback) {
     var position = options.position;   //'right-bottom';
     var type = options.type;    //'text';
     var text = options.text ? options.text : '';
-    gm(source).size(function (err, size) {
+    imageMagick(source).size(function (err, size) {
 
             if (!err) {
                 var logoWidth = (size.width / 10);
@@ -80,7 +80,7 @@ var embed = function (options, callback) {
                     var textColor = options.textOption ? options.textOption.color : '#000000';
                     var fontSize = options.textOption ? options.textOption.fontSize : 20;
 
-                    gm(source)
+                    imageMagick(source)
                         .fill(textColor)
                         .drawText(logoX, logoY, text)
                         .fontSize(fontSize + 'px')
