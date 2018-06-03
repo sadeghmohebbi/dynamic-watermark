@@ -7,12 +7,10 @@
  */
 
 /**
- * ImageMagick Dynamic Watermark is npm watermark module to add watermark over image.
- * It can add image as well as text watermark on given positions.
+ * ImageMagick Dynamic Watermark is npm watermark module to add watermark over cropped or original image.
  * @param  {options}
  * @return {callback}
  */
-
 
 const gm = require('gm');
 const imageMagick = gm.subClass({imageMagick: true});
