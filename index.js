@@ -17,9 +17,14 @@
 const gm = require('gm');
 const imageMagick = gm.subClass({imageMagick: true});
 
-imageMagick.prototype.overlayImage = function(image, resize) {
-    return this.gravity(image.gravity)
-        .out('(', image.path, ' ', '-resize', resize, ')')
+imageMagick.prototype.cropOnAspect = function(gravity, width, height) {
+    return this.gravity(gravity)
+        .crop(width, height);
+}
+
+imageMagick.prototype.overlayImage = function(logo, gravity, resize, margin) {
+    return this.gravity(gravity)
+        .out('(', logo, ' ', '-resize', resize, ')')
         .out('-composite');
 }
 
@@ -27,87 +32,59 @@ function resizeTo(width, height) {
     return width + 'x' + height + '>';
 }
 
-var embed = function (options, callback) {
+var apply = function (options, callback) {
 
     var source = options.source;   // Source file path
-    var logo = options.logo;   // Logo file path
-    var ext = source.split('.').pop();
     var destination = options.destination; // Destination file path
 
-    /**
-    * Left bottom: X = 10, Y = logoY
-    * Right bottom: X = logoX, Y = logoY
-    * Left Top: X = 10, Y = 10
-    * Right Top: X = logoX, Y = 10
-    */
-
-    var position = options.position;   //'right-bottom';
-    var type = options.type;    //'text';
-    var text = options.text ? options.text : '';
-    imageMagick(source).size(function (err, size) {
-
-            if (!err) {
-                var logoWidth = (size.width / 10);
-                var logoHeight = (size.height / 10);
-                // var logoX = size.width - (size.width / 8);
-                // var logoY = size.height - (size.height / 8);
-                var gravity = "NorthWest";
-
-                if (position) {
-                    switch (position.gravity) {
-                        case 'left-top':
-                            gravity = "NorthWest";
-                            break;
+    var type = options.type;//watermark, crop, crop_watermark
     
-                        case 'left-bottom':
-                            gravity = "SouthWest";
-                            break;
-    
-                        case 'right-top':
-                            gravity = "NorthEast";
-                            break;
-    
-                        default:
-                            gravity = "NorthWest";
-                            break;
-                    }
-                    logoWidth = position.logoWidth;
-                    logoHeight = position.logoHeight;
-                }
-
-                if (type === 'text') {
-
-                    var textColor = options.textOption ? options.textOption.color : '#000000';
-                    var fontSize = options.textOption ? options.textOption.fontSize : 20;
-
-                    imageMagick(source)
-                        .fill(textColor)
-                        .drawText(logoX, logoY, text)
-                        .fontSize(fontSize + 'px')
-                        .write(destination, function (e) {
-                            console.log(e || 'Text Watermark Done. Path : ' + destination);
-                            if (!e) {
-                                callback(null, 1);
-                            } else {
-                                callback(String(e), 0);
-                            }
-                        });
-                } else {
-                    imageMagick(source)
-                        .overlayImage({gravity: gravity, path: logo}, resizeTo(logoWidth, logoHeight))
-                        .write(destination, function (e) {
-                        console.log(e || 'Image Watermark Done. Path : ' + destination);
-                        if (!e) {
-                            callback(null, 1);
-                        } else {
-                            callback(String(e), 0);
-                        }
-                    });
-                }
-            } else {
-                callback(String(err), 0);
-            }
-        });
+    if (source && destination && type) {
+        if (type == "watermark") {
+            var watermark_params = options.watermark;
+            /*
+            watermark: {
+                logo: String -> logo file path
+                gravity: String -> NorthWest | North | NorthEast | West | Center | East | SouthWest| South | SouthEast,
+                logoWidth: Number,
+                logoHeight: Number
+            } 
+             */
+            imageMagick(image_url_dir)
+                .overlayImage(watermark_params.logo, watermark_params.gravity, resizeTo(watermark_params.logoWidth, watermark_params.logoHeight))
+                .write(image_url_dir, function (e) {
+                    console.log(e || 'Done. Path : ' + image_url_dir);
+                    callback(null, true);
+                });
+        } else if (type == "crop") {
+            /*
+             crop: {
+                 gravity: String -> NorthWest | North | NorthEast | West | Center | East | SouthWest| South | SouthEast,
+                 width: Number,
+                 height: Number
+             } 
+             */
+            var crop_params = options.crop;
+            imageMagick(image_url_dir)
+                .cropOnAspect(crop_params.gravity, crop_params.width, crop_params.height)
+                .write(image_url_dir, function (e) {
+                    console.log(e || 'Done. Path : ' + image_url_dir);
+                    callback(null, true);
+                });
+        } else if (type == "crop_watermark") {
+            var watermark_params = options.watermark;
+            var crop_params = options.crop;
+            imageMagick(image_url_dir)
+                .cropOnAspect(crop_params.gravity, crop_params.width, crop_params.height)
+                .overlayImage(watermark_params.logo, watermark_params.gravity, resizeTo(watermark_params.logoWidth, watermark_params.logoHeight))
+                .write(image_url_dir, function (e) {
+                    console.log(e || 'Done. Path : ' + image_url_dir);
+                    callback(null, true);
+                });
+        }
+    } else {
+        callback("source is "+source+", logo is "+logo+", destination is "+destination+", type is "+type, false);
+    }
 };
 
-module.exports.embed = embed;
+module.exports.apply = apply;

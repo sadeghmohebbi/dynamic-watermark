@@ -1,6 +1,6 @@
 # ImageMagick Dynamic Watermark
 
-Dynamic Watermark is npm watermark module to add watermark over image. It can add image as well as text watermark on given positions. It does great job for adding watermarks.
+ImageMagick Dynamic Watermark is npm watermark module to add watermark over cropped or original image.
 
 ```
 npm install imagemagick-dynamic-watermark
@@ -19,48 +19,38 @@ After successful installation of imagemagick-dynamic-watermark follow below step
 
 ### Step 1: include imagemagick-dynamic-watermark package:
 ```
-var watermark = require('imagemagick-dynamic-watermark');
+var dyWatermark = require('imagemagick-dynamic-watermark');
 ```
 
 ### Step 2: Provide following options:
 ```
-var optionsImageWatermark = {
-    type: "image",
-    source: "a.png",
-    logo: "logo.png", // This is optional if you have provided text Watermark
-    destination: "output.png",
-    position: {
-        logoX : 200,
-        logoY : 200,
-        logoHeight: 200,
-        logoWidth: 200
-    }
-};
+var options = {
+    source: './public/images/a1.jpg',
+    destination: './public/images/a1_edited/jpg',
+    type: 'watermark' or 'crop' or 'crop_watermark',
 
-var optionsTextWatermark = {
-    type: "text",
-    text: "Watermark text", // This is optional if you have provided text Watermark
-    destination: "output.png",
-    source: "a.png",
-    position: {
-        logoX : 200,
-        logoY : 200,
-        logoHeight: 200,
-        logoWidth: 200
+    //if type contain watermark
+    watermark: {
+        logo: './assets/logo.png',
+        gravity: 'NorthWest' or 'North' or 'NorthEast' or 'West' or 'Center' or 'East' or 'SouthWest' or 'South' or 'SouthEast'
+        logoWidth: 100,
+        logoHeight: 100
     },
-    textOption: {
-        fontSize: 100, //In px default : 20
-        color: '#AAF122' // Text color in hex default: #000000
+
+    //if type contain crop
+    crop: {
+        gravity: 'NorthWest' or 'North' or 'NorthEast' or 'West' or 'Center' or 'East' or 'SouthWest' or 'South' or 'SouthEast'
+        width: 100,
+        height: 100
     }
-};
+}
 ```
 
 ### Step 3: Final step is to call embed method by passing above options.
 ```
-//optionsImageWatermark or optionsTextWatermark
-watermark.embed(optionsImageWatermark, function(status) {
-    //Do what you want to do here
-    console.log(status);
+dyWatermark.apply(optionsImageWatermark, (err, isOk) => {
+    if (err) throw new Error(err);
+    //do something, happy coding!
 });
 ```
 this module is base on [Dynamic Watermark](https://github.com/navjotdhanawat/dynamic-watermark) with some fixing 
