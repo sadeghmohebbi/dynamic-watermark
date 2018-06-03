@@ -54,7 +54,7 @@ var embed = function (options, callback) {
                 var gravity = "NorthWest";
 
                 if (position) {
-                    switch (position) {
+                    switch (position.gravity) {
                         case 'left-top':
                             gravity = "NorthWest";
                             break;
