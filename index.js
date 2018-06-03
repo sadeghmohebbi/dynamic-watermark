@@ -14,7 +14,18 @@
  */
 
 
-const gm = require('gm').subClass({imageMagick: true});
+const gm = require('gm');
+const imageMagick = gm.subClass({imageMagick: true});
+
+imageMagick.prototype.overlayImage = function(image, resize) {
+    return this.gravity(image.gravity)
+        .out('(', image.path, ' ', '-resize', resize, ')')
+        .out('-composite');
+}
+
+function resizeTo(width, height) {
+    return width + 'x' + height + '>';
+}
 
 var embed = function (options, callback) {
 
@@ -38,32 +49,30 @@ var embed = function (options, callback) {
             if (!err) {
                 var logoWidth = (size.width / 10);
                 var logoHeight = (size.height / 10);
-                var logoX = size.width - (size.width / 8);
-                var logoY = size.height - (size.height / 8);
+                // var logoX = size.width - (size.width / 8);
+                // var logoY = size.height - (size.height / 8);
+                var gravity = "NorthWest";
 
-                switch (position) {
-                    case 'left-top':
-                        var logoX = 10;
-                        var logoY = 10;
-                        break;
-
-                    case 'left-bottom':
-                        var logoX = 10;
-                        var logoY = size.height - (size.height / 8);
-                        break;
-
-                    case 'right-top':
-                        var logoX = size.width - (size.width / 8);
-                        var logoY = 10;
-                        break;
-                    default:
-                        if (typeof position == 'object') {
-                            var logoWidth = position.logoWidth;
-                            var logoHeight = position.logoHeight;
-                            var logoX = position.logoX;
-                            var logoY = position.logoY;
-                        }
-                        break;
+                if (position) {
+                    switch (position) {
+                        case 'left-top':
+                            gravity = "NorthWest";
+                            break;
+    
+                        case 'left-bottom':
+                            gravity = "SouthWest";
+                            break;
+    
+                        case 'right-top':
+                            gravity = "NorthEast";
+                            break;
+    
+                        default:
+                            gravity = "NorthWest";
+                            break;
+                    }
+                    logoWidth = position.logoWidth;
+                    logoHeight = position.logoHeight;
                 }
 
                 if (type === 'text') {
@@ -74,7 +83,7 @@ var embed = function (options, callback) {
                     gm(source)
                         .fill(textColor)
                         .drawText(logoX, logoY, text)
-                        .fontSize( fontSize + 'px' )
+                        .fontSize(fontSize + 'px')
                         .write(destination, function (e) {
                             console.log(e || 'Text Watermark Done. Path : ' + destination);
                             if (!e) {
@@ -84,16 +93,16 @@ var embed = function (options, callback) {
                             }
                         });
                 } else {
-                    gm(source)
-                        .draw('image over ' + logoX + ',' + logoY + ' ' + logoWidth + ',' + logoHeight + ' ' + logo)
+                    imageMagick(source)
+                        .overlayImage({gravity: gravity, path: logo}, resizeTo(logoWidth, logoHeight))
                         .write(destination, function (e) {
-                            console.log(e || 'Image Watermark Done. Path : ' + destination);
-                            if (!e) {
-                                callback(null, 1);
-                            } else {
-                                callback(String(e), 0);
-                            }
-                        });
+                        console.log(e || 'Image Watermark Done. Path : ' + destination);
+                        if (!e) {
+                            callback(null, 1);
+                        } else {
+                            callback(String(e), 0);
+                        }
+                    });
                 }
             } else {
                 callback(String(err), 0);
