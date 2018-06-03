@@ -22,7 +22,7 @@ imageMagick.prototype.cropOnAspect = function(gravity, width, height) {
         .crop(width, height);
 }
 
-imageMagick.prototype.overlayImage = function(logo, gravity, resize, margin) {
+imageMagick.prototype.overlayImage = function(logo, gravity, resize) {
     return this.gravity(gravity)
         .out('(', logo, ' ', '-resize', resize, ')')
         .out('-composite');
@@ -50,10 +50,10 @@ var apply = function (options, callback) {
                 logoHeight: Number
             } 
              */
-            imageMagick(image_url_dir)
+            imageMagick(source)
                 .overlayImage(watermark_params.logo, watermark_params.gravity, resizeTo(watermark_params.logoWidth, watermark_params.logoHeight))
-                .write(image_url_dir, function (e) {
-                    console.log(e || 'Done. Path : ' + image_url_dir);
+                .write(destination, function (e) {
+                    console.log(e || 'Done. Path : ' + destination);
                     callback(null, true);
                 });
         } else if (type == "crop") {
@@ -65,20 +65,20 @@ var apply = function (options, callback) {
              } 
              */
             var crop_params = options.crop;
-            imageMagick(image_url_dir)
+            imageMagick(source)
                 .cropOnAspect(crop_params.gravity, crop_params.width, crop_params.height)
-                .write(image_url_dir, function (e) {
-                    console.log(e || 'Done. Path : ' + image_url_dir);
+                .write(destination, function (e) {
+                    console.log(e || 'Done. Path : ' + destination);
                     callback(null, true);
                 });
         } else if (type == "crop_watermark") {
             var watermark_params = options.watermark;
             var crop_params = options.crop;
-            imageMagick(image_url_dir)
+            imageMagick(source)
                 .cropOnAspect(crop_params.gravity, crop_params.width, crop_params.height)
                 .overlayImage(watermark_params.logo, watermark_params.gravity, resizeTo(watermark_params.logoWidth, watermark_params.logoHeight))
-                .write(image_url_dir, function (e) {
-                    console.log(e || 'Done. Path : ' + image_url_dir);
+                .write(destination, function (e) {
+                    console.log(e || 'Done. Path : ' + destination);
                     callback(null, true);
                 });
         }
