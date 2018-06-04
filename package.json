@@ -18,11 +18,11 @@
     "watermark",
     "image watermark",
     "image over image",
-    "text watermark",
-    "watermark position",
     "smart watermark",
     "icon watermark",
-    "transparent watermark"
+    "crop and watermark",
+    "easy crop",
+    "smart crop"
   ],
   "author": "Sadegh Mohebbi <mohebbi.sadegh@gmail.com>",
   "license": "MIT",

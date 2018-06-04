@@ -46,7 +46,7 @@ var options = {
 }
 ```
 
-### Step 3: Final step is to call embed method by passing above options.
+### Step 3: Final step is to call apply method by passing above options.
 ```
 dyWatermark.apply(optionsImageWatermark, (err, isOk) => {
     if (err) throw new Error(err);
