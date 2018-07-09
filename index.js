@@ -52,7 +52,7 @@ var apply = function (options, callback) {
             if (watermark_params && watermark_params.logo) {
                 gm(watermark_params.logo).size(function (err, logoSize) {
                     if (err) callback(err, false);
-
+                    console.log(size, logoSize);
                     if (watermark_params.logoWidthPercent && watermark_params.logoHeightPercent) {
                         logoWidth = watermark_params.logoWidthPercent * size.width;
                         logoHeight = watermark_params.logoHeightPercent * size.height;
