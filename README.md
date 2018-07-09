@@ -35,6 +35,11 @@ var options = {
         gravity: 'NorthWest' or 'North' or 'NorthEast' or 'West' or 'Center' or 'East' or 'SouthWest' or 'South' or 'SouthEast'
         logoWidth: 100,
         logoHeight: 100
+
+        //for relative watermark logo size (logoWidth and logoHeight are ignored)
+        //one of them cased to calculating another width or height with keeping ratio
+        logoWidthPercent: 0.1
+        logoHeightPercent: 0.1
     },
 
     //if type contain crop
