@@ -38,7 +38,7 @@ var apply = function (options, callback) {
     var type = options.type;//watermark, crop, crop_watermark
     
     if (source && destination && type) {
-        gm(source).size(function (err, size) {
+        imageMagick(source).size(function (err, size) {
             if (err) callback(err, false);
 
             var watermark_params = options.watermark;
@@ -50,9 +50,9 @@ var apply = function (options, callback) {
              */
             var logoWidth, logoHeight;
             if (watermark_params && watermark_params.logo) {
-                gm(watermark_params.logo).size(function (err, logoSize) {
+                imageMagick(watermark_params.logo).size(function (err, logoSize) {
                     if (err) callback(err, false);
-                    console.log(size, logoSize);
+
                     if (watermark_params.logoWidthPercent && watermark_params.logoHeightPercent) {
                         logoWidth = watermark_params.logoWidthPercent * size.width;
                         logoHeight = watermark_params.logoHeightPercent * size.height;
