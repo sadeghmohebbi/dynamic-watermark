@@ -91,6 +91,7 @@ var apply = function (options, callback) {
                             });
                     } else if (type == "crop_watermark") {
                         imageMagick(source)
+                            .resize(crop_params.width, crop_params.height, "^")
                             .cropOnAspect(crop_params.gravity, crop_params.width, crop_params.height)
                             .overlayImage(watermark_params.logo, watermark_params.gravity, resizeTo(logoWidth, logoHeight))
                             .write(destination, function (e) {
@@ -112,6 +113,7 @@ var apply = function (options, callback) {
                  */
                 if (crop_params.width && crop_params.height) {
                     imageMagick(source)
+                        .resize(crop_params.width, crop_params.height, "^")
                         .cropOnAspect(crop_params.gravity, crop_params.width, crop_params.height)
                         .write(destination, function (e) {
                             console.log(e || 'Done. Path : ' + destination);
